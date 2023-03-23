@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Web Sayfası</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+	<div class="panel">
+		<h2>Blocks</h2>
+		<div class="block" id="block-a">Block A</div>
+		<div class="block" id="block-b">Block B</div>
+		<div class="block" id="block-c">Block C</div>
+		<div class="block" id="block-d">Block D</div>
+	</div>
+
+	<div id="form-elements"></div>
+
+	<script>
+
+//Delete buton düzenlemeleri ve soldan sağa blocktan form geçişlerini sağlamak üzerine. Butonlara ve blocklara tıklanma halinde ki reaksiyonlar.
+		const panel = document.querySelector(".panel");
+		const form = document.querySelector("#form-elements");
+
+		function convertBlockToFormElement(blockId, formElement) {
+		  const block = document.querySelector(`#${blockId}`);
+		  const input = document.createElement(formElement);
+		  input.setAttribute("name", blockId);
+		  input.setAttribute("placeholder", blockId);
+		  input.classList.add("form-element");
+		  const deleteButton = document.createElement("button");
+          deleteButton.innerHTML = "Delete";
+		  deleteButton.classList.add("delete-button");
+		  deleteButton.addEventListener("click", function() {
+		    input.remove();
+		    deleteButton.remove();
+		  });
+		  const formGroup = document.createElement("div");
+		  formGroup.classList.add("form-group");
+		  formGroup.appendChild(input);
+		  formGroup.appendChild(deleteButton);
+		  form.appendChild(formGroup);
+		  block.classList.add("form-element");
+		  block.addEventListener("click", function() {
+		    const formElement = "input";
+		    convertBlockToFormElement(blockId, formElement);
+		  });
+		}
+
+		const blocks = document.querySelectorAll(".block");
+		blocks.forEach(function(block) {
+		  const blockId = block.getAttribute("id");
+		  block.addEventListener("click", function() {
+		    const formElement = "input";
+		    convertBlockToFormElement(blockId, formElement);
+		  });
+		});
+
+//--------------------------------
+        function convertBlockToFormElement(blockId, formElement) {
+  const block = document.querySelector(`#${blockId}`);
+  const input = document.createElement(formElement);
+  input.setAttribute("name", blockId);
+  input.setAttribute("placeholder", blockId);
+  input.classList.add("form-element");
+
+  // Block A'yı sağa taşıdığımızda sadece bir input oluşturuyoruz
+  if (blockId === "block-a") {
+    form.appendChild(input);
+  }
+
+  const deleteButton = document.createElement("button");
+  deleteButton.innerHTML = "Delete";
+  deleteButton.classList.add("delete-button");
+  deleteButton.addEventListener("click", function() {
+    input.remove();
+    deleteButton.remove();
+  });
+
+  const formGroup = document.createElement("div");
+  formGroup.appendChild(input);
+  formGroup.appendChild(deleteButton);
+
+// Block B'yi taşıdığımızda önceki satır + iki input eklenicek şekilde
+  if (blockId === "block-b") {
+    const input2 = document.createElement(formElement);
+    input2.setAttribute("name", `${blockId}-1`);
+    input2.setAttribute("placeholder", `${blockId}-1`);
+    input2.classList.add("form-element");
+    form.appendChild(input2);
+
+    const input3 = document.createElement(formElement);
+    input3.setAttribute("name", `${blockId}-2`);
+    input3.setAttribute("placeholder", `${blockId}-2`);
+    input3.classList.add("form-element");
+    form.appendChild(input3);
+
+//Block C'yi taşıdığımızda bir text-area alanı yaratılıyor
+
+  } else if (blockId === "block-c") {
+    const textarea = document.createElement("textarea");
+    textarea.setAttribute("name", blockId);
+    textarea.setAttribute("placeholder", blockId);
+    textarea.classList.add("form-element");
+    form.appendChild(textarea);
+  }
+  form.appendChild(formGroup);
+}      
+	</script>
+
+</body>
+</html>
